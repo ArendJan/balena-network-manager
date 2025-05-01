@@ -139,7 +139,14 @@ impl DBusNetworkManager {
                         ssid = Ssid::from_bytes(variant_iter_to_vec_u8(&mut v2)?)?;
                     }
                     "mode" => {
-                        mode = extract::<String>(&mut v2)?;
+                        if let Ok(value) = extract::<String>(&mut v2) {
+                            mode = value;
+                        } else if let Ok(value) = extract::<u32>(&mut v2) {
+                            println!("Value uint: {:?}", value);
+                            mode = value.to_string();
+                        } else {
+                            return Err("Failed to extract mode".into());
+                        }
                     }
                     _ => {}
                 }
