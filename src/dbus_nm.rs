@@ -142,10 +142,9 @@ impl DBusNetworkManager {
                         if let Ok(value) = extract::<String>(&mut v2) {
                             mode = value;
                         } else if let Ok(value) = extract::<u32>(&mut v2) {
-                            println!("Value uint: {:?}", value);
                             mode = value.to_string();
                         } else {
-                            return Err("Failed to extract mode".into());
+                            mode = "unknown".to_string();
                         }
                     }
                     _ => {}
